@@ -49,8 +49,9 @@ const Navbar = () => {
 							</svg>
 							<span className="sr-only">Toggle sidebar</span>
 						</button>
-						<a
-							href="https://flowbite.com"
+						<Link
+							to="/"
+							reloadDocument
 							className="flex items-center justify-between mr-4"
 						>
 							<img
@@ -61,35 +62,7 @@ const Navbar = () => {
 							<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
 								Trim-Time
 							</span>
-						</a>
-						<form action="#" method="GET" className="hidden md:block md:pl-2">
-							<label for="topbar-search" className="sr-only">
-								Search
-							</label>
-							<div className="relative w-64 md:w-96">
-								<div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-									<svg
-										className="w-5 h-5 text-gray-500 dark:text-gray-400"
-										fill="currentColor"
-										viewBox="0 0 20 20"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											fill-rule="evenodd"
-											clip-rule="evenodd"
-											d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-										></path>
-									</svg>
-								</div>
-								<input
-									type="text"
-									name="email"
-									id="topbar-search"
-									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-									placeholder="Search"
-								/>
-							</div>
-						</form>
+						</Link>
 					</div>
 					<div className="flex items-center lg:order-2">
 						<button
@@ -376,15 +349,40 @@ const Navbar = () => {
 						</button>
 						{/* <!-- Dropdown menu --> */}
 						<div
-							className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
+							className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white divide-y divide-gray-100 shadow-lg dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
 							id="apps-dropdown"
 						>
 							<div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
 								Apps
 							</div>
 							<div className="grid grid-cols-3 gap-4 p-4">
-								<a
-									href="#"
+								<Link
+									to="/dashboard/clients"
+									reloadDocument
+									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+								>
+									<svg
+										fill="none"
+										className="mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400"
+										stroke="currentColor"
+										strokeWidth={1.5}
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+										aria-hidden="true"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+										/>
+									</svg>
+									<div className="text-sm text-gray-900 dark:text-white">
+										Dashboard
+									</div>
+								</Link>
+								<Link
+									to="/dashboard/barbers"
+									reloadDocument
 									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
 								>
 									<svg
@@ -397,11 +395,12 @@ const Navbar = () => {
 										<path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
 									</svg>
 									<div className="text-sm text-gray-900 dark:text-white">
-										Users
+										Barbers
 									</div>
-								</a>
-								<a
-									href="#"
+								</Link>
+								<Link
+									to="/dashboard/profile"
+									reloadDocument
 									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
 								>
 									<svg
@@ -420,9 +419,10 @@ const Navbar = () => {
 									<div className="text-sm text-gray-900 dark:text-white">
 										Profile
 									</div>
-								</a>
-								<a
-									href="#"
+								</Link>
+								<Link
+									to="/dashboard/profile"
+									reloadDocument
 									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
 								>
 									<svg
@@ -441,9 +441,10 @@ const Navbar = () => {
 									<div className="text-sm text-gray-900 dark:text-white">
 										Settings
 									</div>
-								</a>
-								<a
-									href="#"
+								</Link>
+								<Link
+									to="/dashboard/payments"
+									reloadDocument
 									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
 								>
 									<svg
@@ -463,9 +464,10 @@ const Navbar = () => {
 									<div className="text-sm text-gray-900 dark:text-white">
 										Payments
 									</div>
-								</a>
-								<a
-									href="#"
+								</Link>
+								<Link
+									to="/dashboard/appointments"
+									reloadDocument
 									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
 								>
 									<svg
@@ -484,7 +486,7 @@ const Navbar = () => {
 									<div className="text-sm text-gray-900 dark:text-white">
 										Bookings
 									</div>
-								</a>
+								</Link>
 							</div>
 						</div>
 						<button

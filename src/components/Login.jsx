@@ -37,12 +37,13 @@ const Login = () => {
 					setButtonLoading(false);
 				} else {
 					if (res[0].password === password) {
-						toast.success(`Success! User logged in successfully.`);
 						sessionStorage.setItem('email', email);
+						sessionStorage.setItem('userId', res[0].id);
 						sessionStorage.setItem('user_type', res[0].type);
 						navigate('/');
 						navigate(0);
 						setButtonLoading(false);
+						toast.success(`Success! User logged in successfully.`);
 					} else {
 						toast.error('Please enter valid credentials');
 						setButtonLoading(false);
@@ -138,7 +139,11 @@ const Login = () => {
 							<button
 								disabled={buttonLoading ? true : false}
 								type="submit"
-								className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+								className={
+									buttonLoading
+										? 'w-full text-white bg-gray-500 hover:bg-gray-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+										: 'w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+								}
 							>
 								{buttonLoading ? 'Loading' : 'Login'}
 							</button>

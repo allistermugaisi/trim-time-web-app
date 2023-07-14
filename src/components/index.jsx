@@ -1,3 +1,11 @@
 export { default as Landing } from './Landing';
 export { default as Login } from './Login';
 export { default as Register } from './Register';
+export { default as Clients } from './Clients';
+export { default as Barbers } from './Barbers';
+export { default as Profile } from './Profile';
+export { default as Payments } from './Payments';
+export { default as Reviews } from './Reviews';
+export { default as Rewards } from './Rewards';
+export { default as Appointments } from './Appointments';
+export { default as Notifications } from './Notifications';
