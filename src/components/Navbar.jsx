@@ -31,7 +31,7 @@ const Navbar = () => {
 								<path
 									fillRule="evenodd"
 									d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-									clip-rule="evenodd"
+									clipRule="evenodd"
 								></path>
 							</svg>
 							<svg
@@ -42,9 +42,9 @@ const Navbar = () => {
 								xmlns="http://www.w3.org/2000/svg"
 							>
 								<path
-									fill-rule="evenodd"
+									fillRule="evenodd"
 									d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-									clip-rule="evenodd"
+									clipRule="evenodd"
 								></path>
 							</svg>
 							<span className="sr-only">Toggle sidebar</span>
@@ -52,14 +52,14 @@ const Navbar = () => {
 						<Link
 							to="/"
 							reloadDocument
-							className="flex items-center justify-between mr-4"
+							className="hidden sm:flex items-center justify-between mr-4"
 						>
 							<img
 								src="https://flowbite.s3.amazonaws.com/logo.svg"
 								className="mr-3 h-8"
 								alt="Flowbite Logo"
 							/>
-							<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+							<span className="self-center text-base sm:text-2xl font-semibold whitespace-nowrap dark:text-white">
 								Trim-Time
 							</span>
 						</Link>
@@ -80,8 +80,8 @@ const Navbar = () => {
 								xmlns="http://www.w3.org/2000/svg"
 							>
 								<path
-									clip-rule="evenodd"
-									fill-rule="evenodd"
+									clipRule="evenodd"
+									fillRule="evenodd"
 									d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
 								></path>
 							</svg>
@@ -106,7 +106,7 @@ const Navbar = () => {
 						</button>
 						{/* <!-- Dropdown menu --> */}
 						<div
-							className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
+							className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
 							id="notification-dropdown"
 						>
 							<div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
@@ -206,9 +206,9 @@ const Navbar = () => {
 												xmlns="http://www.w3.org/2000/svg"
 											>
 												<path
-													fill-rule="evenodd"
+													fillRule="evenodd"
 													d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-													clip-rule="evenodd"
+													clipRule="evenodd"
 												></path>
 											</svg>
 										</div>
@@ -248,9 +248,9 @@ const Navbar = () => {
 												xmlns="http://www.w3.org/2000/svg"
 											>
 												<path
-													fill-rule="evenodd"
+													fillRule="evenodd"
 													d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z"
-													clip-rule="evenodd"
+													clipRule="evenodd"
 												></path>
 											</svg>
 										</div>
@@ -321,9 +321,9 @@ const Navbar = () => {
 									>
 										<path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
 										<path
-											fill-rule="evenodd"
+											fillRule="evenodd"
 											d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-											clip-rule="evenodd"
+											clipRule="evenodd"
 										></path>
 									</svg>
 									View all
@@ -411,9 +411,9 @@ const Navbar = () => {
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											fill-rule="evenodd"
+											fillRule="evenodd"
 											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-											clip-rule="evenodd"
+											clipRule="evenodd"
 										></path>
 									</svg>
 									<div className="text-sm text-gray-900 dark:text-white">
@@ -433,9 +433,9 @@ const Navbar = () => {
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											fill-rule="evenodd"
+											fillRule="evenodd"
 											d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-											clip-rule="evenodd"
+											clipRule="evenodd"
 										></path>
 									</svg>
 									<div className="text-sm text-gray-900 dark:text-white">
@@ -456,9 +456,9 @@ const Navbar = () => {
 									>
 										<path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
 										<path
-											fill-rule="evenodd"
+											fillRule="evenodd"
 											d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
-											clip-rule="evenodd"
+											clipRule="evenodd"
 										></path>
 									</svg>
 									<div className="text-sm text-gray-900 dark:text-white">
@@ -478,9 +478,9 @@ const Navbar = () => {
 										xmlns="http://www.w3.org/2000/svg"
 									>
 										<path
-											fill-rule="evenodd"
+											fillRule="evenodd"
 											d="M5 2a2 2 0 00-2 2v14l3.5-2 3.5 2 3.5-2 3.5 2V4a2 2 0 00-2-2H5zm2.5 3a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm6.207.293a1 1 0 00-1.414 0l-6 6a1 1 0 101.414 1.414l6-6a1 1 0 000-1.414zM12.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
-											clip-rule="evenodd"
+											clipRule="evenodd"
 										></path>
 									</svg>
 									<div className="text-sm text-gray-900 dark:text-white">
@@ -505,7 +505,7 @@ const Navbar = () => {
 						</button>
 						{/* <!-- Dropdown menu --> */}
 						<div
-							className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
+							className="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
 							id="dropdown"
 						>
 							<div className="py-3 px-4">
