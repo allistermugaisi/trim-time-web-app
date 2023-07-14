@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Clients = () => {
+	const [clients, setClients] = useState(null);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(
+					'https://trim-time-api.onrender.com/users'
+				);
+				setClients(response.data);
+				setLoading(false);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<div className="flex justify-center mt-8 overflow-hidden overflow-y-scroll">
 			<div className="max-w-7xl overflow-hidden mb-8">
@@ -9,46 +29,37 @@ const Clients = () => {
 						<thead className="text-xs font-semibold tracking-wide text-left text-gray-500 capitalize border-b border-gray-200  bg-gray-100">
 							<tr>
 								<td className="px-4 py-3">Client ID</td>
+								<td className="px-4 py-3">Avatar</td>
 								<td className="px-4 py-3">Name</td>
-								<td className="px-4 py-3">Phone</td>
-								<td className="px-4 py-3">Gender</td>
-								<td className="px-4 py-3">Appointments</td>
-								<td className="px-4 py-3">Total Amount Paid</td>
+								<td className="px-4 py-3">Email address</td>
+								<td className="px-4 py-3">User type</td>
+								{/* <td className="px-4 py-3">Appointments</td>
+								<td className="px-4 py-3">Total Amount Paid</td> */}
 							</tr>
 						</thead>
 						<tbody className="bg-white divide-y divide-gray-100 text-gray-700">
-							{customers.map((client) => {
-								const {
-									id,
-									customer_id,
-									customer_name,
-									phone,
-									gender,
-									total_items_ordered,
-									total_amount_paid,
-									customer_rating,
-								} = client;
+							{clients?.map((client) => {
+								const { id, name, profile, email, type } = client;
 								return (
 									<tr key={id} role="button" onClick={() => setShowModal(true)}>
 										<td className="px-4 py-3">
-											<span className="text-sm">{customer_id}</span>
+											<span className="text-sm">{id}</span>
+										</td>
+										<span className="text-sm">
+											<img
+												className="w-10 h-10 rounded-full"
+												src={profile}
+												alt="Rounded avatar"
+											/>
+										</span>
+										<td className="px-4 py-3">
+											<span className="text-sm">{name}</span>
 										</td>
 										<td className="px-4 py-3">
-											<span className="text-sm">{customer_name}</span>
+											<span className="text-sm">{email}</span>
 										</td>
 										<td className="px-4 py-3">
-											<span className="text-sm">{phone}</span>
-										</td>
-										<td className="px-4 py-3">
-											<span className="text-sm">{gender}</span>
-										</td>
-										<td className="px-4 py-3">
-											<span className="text-sm">{total_items_ordered}</span>
-										</td>
-										<td className="px-4 py-3">
-											<span className="text-sm">
-												{formatter.format(total_amount_paid)}
-											</span>
+											<span className="text-sm">{type}</span>
 										</td>
 									</tr>
 								);
