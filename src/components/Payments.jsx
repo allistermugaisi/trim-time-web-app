@@ -95,8 +95,8 @@ const payments = [
 	{
 		id: 0,
 		transaction_id: '092EUHDA23',
-		customer_name: 'Allister Mugaisi',
-		phone: 790516067,
+		customer_name: 'John Doe',
+		phone: 720817069,
 		barber_name: 'Shawn Sims',
 		type_of_service: [
 			"Men's haircut",

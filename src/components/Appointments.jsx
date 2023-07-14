@@ -103,8 +103,8 @@ const appointments = [
 	{
 		id: 0,
 		customer_id: '092EUHDA23',
-		customer_name: 'Allister Mugaisi',
-		email: 'allistermugaisi@example.com',
+		customer_name: 'John Doe',
+		email: 'johndoe@example.com',
 		barber_name: 'Keith Miller',
 		price: 17100,
 		location: 'Mombasa, Kenya',
