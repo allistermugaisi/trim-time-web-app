@@ -8,21 +8,35 @@ const Navbar = () => {
 
 	useEffect(() => {
 		let email = sessionStorage.getItem('email');
+		let user_type = sessionStorage.getItem('user_type');
 
 		if (email === '' || email === null) {
 			navigate('/auth/login');
 		}
 
-		fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
-			.then((res) => {
-				return res.json();
-			})
-			.then((res) => {
-				setCurrentUser(res[0]);
-			})
-			.catch((error) => {
-				toast.error('Failed to fetch current user' + error.response.message);
-			});
+		if (user_type === 'barber') {
+			fetch(`https://trim-time-api.onrender.com/barbers?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					setCurrentUser(res[0]);
+				})
+				.catch((error) => {
+					toast.error('Failed to fetch current user' + error.response.message);
+				});
+		} else {
+			fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					setCurrentUser(res[0]);
+				})
+				.catch((error) => {
+					toast.error('Failed to fetch current user' + error.response.message);
+				});
+		}
 	}, []);
 
 	const logOut = () => {
@@ -377,48 +391,53 @@ const Navbar = () => {
 								Apps
 							</div>
 							<div className="grid grid-cols-3 gap-4 p-4">
-								<Link
-									to="/dashboard/clients"
-									reloadDocument
-									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
-								>
-									<svg
-										fill="none"
-										className="mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400"
-										stroke="currentColor"
-										strokeWidth={1.5}
-										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-										aria-hidden="true"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-										/>
-									</svg>
-									<div className="text-sm text-gray-900 dark:text-white">
-										Dashboard
-									</div>
-								</Link>
-								<Link
-									to="/dashboard/barbers"
-									reloadDocument
-									className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
-								>
-									<svg
-										aria-hidden="true"
-										className="mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400"
-										fill="currentColor"
-										viewBox="0 0 20 20"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-									</svg>
-									<div className="text-sm text-gray-900 dark:text-white">
-										Barbers
-									</div>
-								</Link>
+								{currentUser?.type === 'owner' && (
+									<>
+										<Link
+											to="/dashboard/clients"
+											reloadDocument
+											className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+										>
+											<svg
+												fill="none"
+												className="mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400"
+												stroke="currentColor"
+												strokeWidth={1.5}
+												viewBox="0 0 24 24"
+												xmlns="http://www.w3.org/2000/svg"
+												aria-hidden="true"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+												/>
+											</svg>
+											<div className="text-sm text-gray-900 dark:text-white">
+												Dashboard
+											</div>
+										</Link>
+										<Link
+											to="/dashboard/barbers"
+											reloadDocument
+											className="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+										>
+											<svg
+												aria-hidden="true"
+												className="mx-auto mb-1 w-7 h-7 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400"
+												fill="currentColor"
+												viewBox="0 0 20 20"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+											</svg>
+											<div className="text-sm text-gray-900 dark:text-white">
+												Barbers
+											</div>
+										</Link>
+									</>
+								)}
+
 								<Link
 									to="/dashboard/profile"
 									reloadDocument
@@ -520,7 +539,7 @@ const Navbar = () => {
 							<span className="sr-only">Open user menu</span>
 							<img
 								className="w-8 h-8 rounded-full"
-								src={currentUser?.profile}
+								src={currentUser?.profile || currentUser?.imageUrl}
 								alt="user photo"
 							/>
 						</button>
@@ -542,20 +561,13 @@ const Navbar = () => {
 								aria-labelledby="dropdown"
 							>
 								<li>
-									<a
-										href="#"
+									<Link
+										to="/dashboard/profile"
+										reloadDocument
 										className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
 									>
 										My profile
-									</a>
-								</li>
-								<li>
-									<a
-										href="#"
-										className="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
-									>
-										Account settings
-									</a>
+									</Link>
 								</li>
 							</ul>
 							<ul

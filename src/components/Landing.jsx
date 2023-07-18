@@ -20,21 +20,35 @@ const Landing = () => {
 
 	useEffect(() => {
 		let email = sessionStorage.getItem('email');
+		let user_type = sessionStorage.getItem('user_type');
 
 		if (email === '' || email === null) {
 			navigate('/auth/login');
 		}
 
-		fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
-			.then((res) => {
-				return res.json();
-			})
-			.then((res) => {
-				setCurrentUser(res[0]);
-			})
-			.catch((error) => {
-				toast.error('Failed to fetch current user' + error.response.message);
-			});
+		if (user_type === 'barber') {
+			fetch(`https://trim-time-api.onrender.com/barbers?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					setCurrentUser(res[0]);
+				})
+				.catch((error) => {
+					toast.error('Failed to fetch current user' + error.response.message);
+				});
+		} else {
+			fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					setCurrentUser(res[0]);
+				})
+				.catch((error) => {
+					toast.error('Failed to fetch current user' + error.response.message);
+				});
+		}
 	}, []);
 
 	const {

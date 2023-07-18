@@ -25,35 +25,66 @@ const Login = () => {
 	const onSubmit = async (data, e) => {
 		setButtonLoading(true);
 		e.preventDefault();
-		const { email, password } = data;
+		const { user_type, email, password } = data;
+		console.log(data);
 
-		fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
-			.then((res) => {
-				return res.json();
-			})
-			.then((res) => {
-				if (Object.keys(res).length === 0) {
-					toast.error('Please Enter valid username');
-					setButtonLoading(false);
-				} else {
-					if (res[0].password === password) {
-						sessionStorage.setItem('email', email);
-						sessionStorage.setItem('userId', res[0].id);
-						sessionStorage.setItem('user_type', res[0].type);
-						navigate('/');
-						navigate(0);
-						setButtonLoading(false);
-						toast.success(`Success! User logged in successfully.`);
-					} else {
+		if (user_type === 'barber') {
+			fetch(`https://trim-time-api.onrender.com/barbers?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					if (Object.keys(res).length === 0) {
 						toast.error('Please enter valid credentials');
 						setButtonLoading(false);
+					} else {
+						if (res[0].password === password) {
+							sessionStorage.setItem('email', email);
+							sessionStorage.setItem('userId', res[0].id);
+							sessionStorage.setItem('user_type', res[0].type);
+							navigate('/');
+							navigate(0);
+							setButtonLoading(false);
+							toast.success(`Success! User logged in successfully.`);
+						} else {
+							toast.error('Please enter valid credentials');
+							setButtonLoading(false);
+						}
 					}
-				}
-			})
-			.catch((error) => {
-				toast.error('Login Failed due to :' + error.response.message);
-				setButtonLoading(false);
-			});
+				})
+				.catch((error) => {
+					toast.error('Login Failed due to :' + error.response.message);
+					setButtonLoading(false);
+				});
+		} else {
+			fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					if (Object.keys(res).length === 0) {
+						toast.error('Please enter valid credentials');
+						setButtonLoading(false);
+					} else {
+						if (res[0].password === password) {
+							sessionStorage.setItem('email', email);
+							sessionStorage.setItem('userId', res[0].id);
+							sessionStorage.setItem('user_type', res[0].type);
+							navigate('/');
+							navigate(0);
+							setButtonLoading(false);
+							toast.success(`Success! User logged in successfully.`);
+						} else {
+							toast.error('Please enter valid credentials');
+							setButtonLoading(false);
+						}
+					}
+				})
+				.catch((error) => {
+					toast.error('Login Failed due to :' + error.response.message);
+					setButtonLoading(false);
+				});
+		}
 	};
 	return (
 		<section className="bg-gray-50 dark:bg-gray-900">
@@ -79,6 +110,35 @@ const Login = () => {
 							onSubmit={handleSubmit(onSubmit)}
 							className="space-y-4 md:space-y-6"
 						>
+							<div>
+								<label
+									htmlFor="user_type"
+									className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+								>
+									User type
+								</label>
+								<select
+									{...register('user_type', {
+										required: {
+											value: true,
+											message: 'User type is required',
+										},
+									})}
+									id="user_type"
+									name="user_type"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								>
+									<option>Choose your user type</option>
+									<option defaultValue="client">client</option>
+									<option defaultValue="owner">owner</option>
+									<option defaultValue="barber">barber</option>
+								</select>
+								{errors?.user_type && (
+									<span className="text-red-500 text-xs">
+										{errors?.user_type?.message}
+									</span>
+								)}
+							</div>
 							<div>
 								<label
 									htmlFor="email"

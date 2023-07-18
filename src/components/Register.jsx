@@ -40,38 +40,99 @@ const Register = () => {
 		'https://res.cloudinary.com/dgisuffs0/image/upload/q_auto/v1689233937/trim-time/7374005ebb2fb14f77171024529dc17e_xm6xht.jpg',
 	];
 
+	let type_of_service = [
+		'Hair + beard haircut',
+		"Men's haircut",
+		'Hairstyling',
+		'Razor shave',
+		'Head camo',
+		'Haircut machine',
+		'Beard haircut',
+		'Beard / Head camo',
+	];
+
+	let location = [
+		'Kiambu, Kenya',
+		'Kisumu, Kenya',
+		'Machakos, Kenya',
+		'Mombasa, Kenya',
+		'Nairobi, Kenya',
+		'Kericho, Kenya',
+		'Nyali, Kenya',
+		'Ngong, Kenya',
+		'Eldoret, Kenya',
+		'Nyandarua, Kenya',
+	];
+
 	const onSubmit = async (data, e) => {
 		e.preventDefault();
 
 		setButtonLoading(true);
 		const { user_type, name, email, password, accept_terms } = data;
-		let imageUrl = getRandomString(imageUrls);
 
-		const payload = JSON.stringify({
-			id: Math.floor(Math.random() * 10000),
-			type: user_type,
-			profile: imageUrl,
-			name,
-			email,
-			password,
-			confirm_password: password,
-			accept_terms,
-		});
+		if (user_type === 'barber') {
+			let imageUrl = getRandomString(imageUrls);
 
-		fetch('https://trim-time-api.onrender.com/users', {
-			method: 'POST',
-			headers: { 'content-type': 'application/json' },
-			body: payload,
-		})
-			.then((res) => {
-				toast.success('You have been registered successfully.');
-				setButtonLoading(false);
-				navigate('/auth/login');
-			})
-			.catch((error) => {
-				toast.error('Failed :' + error.response.message);
-				setButtonLoading(false);
+			const payload = JSON.stringify({
+				id: Math.floor(Math.random() * 10000),
+				type: user_type,
+				name,
+				email,
+				imageUrl: imageUrl,
+				price: Math.floor(Math.random() * 20000),
+				location: getRandomString(location),
+				experience: Math.floor(Math.random() * 8),
+				rating: Math.floor(Math.random() * 5),
+				clients: Math.floor(Math.random() * 500),
+				services: getRandomString(type_of_service).toArray(),
+				password,
+				confirm_password: password,
+				accept_terms,
 			});
+
+			fetch('https://trim-time-api.onrender.com/barbers', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: payload,
+			})
+				.then((res) => {
+					toast.success('You have been registered successfully.');
+					setButtonLoading(false);
+					navigate('/auth/login');
+				})
+				.catch((error) => {
+					toast.error('Failed :' + error.response.message);
+					setButtonLoading(false);
+				});
+		} else {
+			let imageUrl = getRandomString(imageUrls);
+
+			const payload = JSON.stringify({
+				id: Math.floor(Math.random() * 10000),
+				type: user_type,
+				profile: imageUrl,
+				name,
+				email,
+				password,
+				confirm_password: password,
+				accept_terms,
+			});
+
+			fetch('https://trim-time-api.onrender.com/users', {
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: payload,
+			})
+				.then((res) => {
+					toast.success('You have been registered successfully.');
+					setButtonLoading(false);
+					navigate('/auth/login');
+				})
+				.catch((error) => {
+					toast.error('Failed :' + error.response.message);
+					setButtonLoading(false);
+				});
+		}
 	};
 
 	return (
@@ -119,6 +180,7 @@ const Register = () => {
 									<option>Choose your user type</option>
 									<option defaultValue="client">client</option>
 									<option defaultValue="owner">owner</option>
+									<option defaultValue="barber">barber</option>
 								</select>
 								{errors?.user_type && (
 									<span className="text-red-500 text-xs">
