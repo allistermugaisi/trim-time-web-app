@@ -72,18 +72,6 @@ const Tabs = () => {
 					</li>
 					<li className="mr-2">
 						<Link
-							to="/dashboard/rewards"
-							className={
-								location?.pathname === '/dashboard/rewards'
-									? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500'
-									: 'inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-							}
-						>
-							Rewards
-						</Link>
-					</li>
-					<li className="mr-2">
-						<Link
 							to="/dashboard/profile"
 							className={
 								location?.pathname === '/dashboard/profile'
@@ -94,7 +82,7 @@ const Tabs = () => {
 							Profile
 						</Link>
 					</li>
-					<li className="mr-2">
+					{/* <li className="mr-2">
 						<Link
 							to="/dashboard/notifications"
 							className={
@@ -105,7 +93,7 @@ const Tabs = () => {
 						>
 							Notifications
 						</Link>
-					</li>
+					</li> */}
 				</ul>
 			</div>
 		</div>

@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
 	const navigate = useNavigate();
+
+	const [currentUser, setCurrentUser] = useState([]);
+
+	useEffect(() => {
+		let email = sessionStorage.getItem('email');
+
+		if (email === '' || email === null) {
+			navigate('/auth/login');
+		}
+
+		fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
+			.then((res) => {
+				return res.json();
+			})
+			.then((res) => {
+				setCurrentUser(res[0]);
+			})
+			.catch((error) => {
+				toast.error('Failed to fetch current user' + error.response.message);
+			});
+	}, []);
 
 	const logOut = () => {
 		sessionStorage.clear();
@@ -87,13 +108,13 @@ const Navbar = () => {
 							</svg>
 						</button>
 						{/* <!-- Notifications --> */}
-						<button
+						{/* <button
 							type="button"
 							data-dropdown-toggle="notification-dropdown"
 							className="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
 						>
 							<span className="sr-only">View notifications</span>
-							{/* <!-- Bell icon --> */}
+
 							<svg
 								aria-hidden="true"
 								className="w-6 h-6"
@@ -103,7 +124,7 @@ const Navbar = () => {
 							>
 								<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
 							</svg>
-						</button>
+						</button> */}
 						{/* <!-- Dropdown menu --> */}
 						<div
 							className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl"
@@ -499,7 +520,7 @@ const Navbar = () => {
 							<span className="sr-only">Open user menu</span>
 							<img
 								className="w-8 h-8 rounded-full"
-								src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+								src={currentUser?.profile}
 								alt="user photo"
 							/>
 						</button>
@@ -510,10 +531,10 @@ const Navbar = () => {
 						>
 							<div className="py-3 px-4">
 								<span className="block text-sm font-semibold text-gray-900 dark:text-white">
-									Neil Sims
+									{currentUser?.name}
 								</span>
 								<span className="block text-sm text-gray-900 truncate dark:text-white">
-									name@trim-time.com
+									{currentUser?.email}
 								</span>
 							</div>
 							<ul

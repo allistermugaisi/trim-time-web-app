@@ -41,14 +41,15 @@ const Register = () => {
 	];
 
 	const onSubmit = async (data, e) => {
-		setButtonLoading(true);
 		e.preventDefault();
-		const { name, email, password, accept_terms } = data;
+
+		setButtonLoading(true);
+		const { user_type, name, email, password, accept_terms } = data;
 		let imageUrl = getRandomString(imageUrls);
 
 		const payload = JSON.stringify({
 			id: Math.floor(Math.random() * 10000),
-			type: 'client',
+			type: user_type,
 			profile: imageUrl,
 			name,
 			email,
@@ -97,6 +98,35 @@ const Register = () => {
 							onSubmit={handleSubmit(onSubmit)}
 							className="space-y-4 md:space-y-6"
 						>
+							<div>
+								<label
+									htmlFor="user_type"
+									className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+								>
+									User type
+								</label>
+								<select
+									{...register('user_type', {
+										required: {
+											value: true,
+											message: 'User type is required',
+										},
+									})}
+									id="user_type"
+									name="user_type"
+									className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								>
+									<option>Choose your user type</option>
+									<option defaultValue="client">client</option>
+									<option defaultValue="owner">owner</option>
+								</select>
+								{errors?.user_type && (
+									<span className="text-red-500 text-xs">
+										{errors?.user_type?.message}
+									</span>
+								)}
+							</div>
+
 							<div>
 								<label
 									htmlFor="name"
@@ -222,7 +252,7 @@ const Register = () => {
 										: 'w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
 								}
 							>
-								{buttonLoading ? 'Loading' : 'Login'}
+								{buttonLoading ? 'Loading' : 'Create an account'}
 							</button>
 							<p className="text-sm font-light text-gray-500 dark:text-gray-400">
 								Already have an account?{' '}

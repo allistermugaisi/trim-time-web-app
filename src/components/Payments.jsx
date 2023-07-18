@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Payments = () => {
+	const [payments, setPayments] = useState(null);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get(
+					'https://trim-time-api.onrender.com/payments'
+				);
+				setPayments(response.data);
+				setLoading(false);
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<div className="flex justify-center mt-8 overflow-hidden overflow-y-scroll">
 			<div className="max-w-7xl overflow-hidden mb-8">
@@ -10,7 +30,8 @@ const Payments = () => {
 							<tr>
 								<td className="px-4 py-3">Transaction ID</td>
 								<td className="px-4 py-3">Customer Name</td>
-								<td className="px-4 py-3">Phone</td>
+								<td className="px-4 py-3">Payment Phone</td>
+								<td className="px-4 py-3">Paybill</td>
 								<td className="px-4 py-3">Barber Name</td>
 								<td className="px-4 py-3">Type of Service</td>
 								<td className="px-4 py-3">Total Amount Paid</td>
@@ -19,39 +40,44 @@ const Payments = () => {
 							</tr>
 						</thead>
 						<tbody className="bg-white divide-y divide-gray-100 text-gray-700">
-							{payments.map((client) => {
+							{payments?.map((payment) => {
 								const {
 									id,
-									transaction_id,
-									customer_name,
-									phone,
-									barber_name,
-									type_of_service,
-									total_amount_paid,
+									BusinessShortCode,
+									Msisdn,
+									client,
+									appointment,
+									Amount,
 									date,
 									status,
-								} = client;
+								} = payment;
+								console.log(payment);
 
 								return (
 									<tr key={id} role="button" onClick={() => setShowModal(true)}>
 										<td className="px-4 py-3">
-											<span className="text-sm">{transaction_id}</span>
+											<span className="text-sm">{id}</span>
 										</td>
 										<td className="px-4 py-3">
-											<span className="text-sm">{customer_name}</span>
+											<span className="text-sm">{client?.name}</span>
 										</td>
 										<td className="px-4 py-3">
-											<span className="text-sm">{phone}</span>
+											<span className="text-sm">{Msisdn}</span>
 										</td>
 										<td className="px-4 py-3">
-											<span className="text-sm">{barber_name}</span>
-										</td>
-										<td className="px-4 py-3">
-											<span className="text-sm">{type_of_service[0]}</span>
+											<span className="text-sm">{BusinessShortCode}</span>
 										</td>
 										<td className="px-4 py-3">
 											<span className="text-sm">
-												{formatter.format(total_amount_paid)}
+												{appointment?.barber?.name}
+											</span>
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">{appointment?.service}</span>
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">
+												{formatter.format(Amount)}
 											</span>
 										</td>
 										<td className="px-4 py-3">
@@ -91,25 +117,25 @@ const Payments = () => {
 
 export default Payments;
 
-const payments = [
-	{
-		id: 0,
-		transaction_id: '092EUHDA23',
-		customer_name: 'John Doe',
-		phone: 720817069,
-		barber_name: 'Shawn Sims',
-		type_of_service: [
-			"Men's haircut",
-			'Hairstyling',
-			'Razor shave',
-			'Head camo',
-			`Hair + beard haircut`,
-		],
-		total_amount_paid: 18500,
-		date: 'Friday, 14 July 2023',
-		status: 'Paid', // Paid, Refund, Unpaid
-	},
-];
+// const payments = [
+// 	{
+// 		id: 0,
+// 		transaction_id: '092EUHDA23',
+// 		customer_name: 'John Doe',
+// 		phone: 720817069,
+// 		barber_name: 'Shawn Sims',
+// 		type_of_service: [
+// 			"Men's haircut",
+// 			'Hairstyling',
+// 			'Razor shave',
+// 			'Head camo',
+// 			`Hair + beard haircut`,
+// 		],
+// 		total_amount_paid: 18500,
+// 		date: 'Friday, 14 July 2023',
+// 		status: 'Paid', // Paid, Refund, Unpaid
+// 	},
+// ];
 
 const formatter = new Intl.NumberFormat('en-KE', {
 	style: 'currency',

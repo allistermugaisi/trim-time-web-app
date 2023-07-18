@@ -11,6 +11,8 @@ const Landing = () => {
 	const navigate = useNavigate();
 
 	const [barbers, setBarbers] = useState(null);
+	const [currentBarber, setCurrentBarber] = useState([]);
+	const [currentUser, setCurrentUser] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const [searchQuery, setSearchQuery] = useState('');
@@ -22,6 +24,17 @@ const Landing = () => {
 		if (email === '' || email === null) {
 			navigate('/auth/login');
 		}
+
+		fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
+			.then((res) => {
+				return res.json();
+			})
+			.then((res) => {
+				setCurrentUser(res[0]);
+			})
+			.catch((error) => {
+				toast.error('Failed to fetch current user' + error.response.message);
+			});
 	}, []);
 
 	const {
@@ -58,9 +71,42 @@ const Landing = () => {
 	// 	item.name.toLowerCase().includes(searchQuery.toLowerCase())
 	// );
 
+	const handleDialog = (barber) => {
+		setCurrentBarber(barber);
+		booking_modial.showModal();
+	};
+
 	const onSubmit = (data, e) => {
 		e.preventDefault();
-		console.log(data);
+		setButtonLoading(true);
+
+		const { checkin_date, phone, service } = data;
+
+		const payload = JSON.stringify({
+			id: Math.floor(Math.random() * 100000),
+			checkin_date,
+			phone,
+			service,
+			client: currentUser,
+			amount: currentBarber?.price,
+			barber: currentBarber,
+			date: new Date().toLocaleDateString(),
+			status: 'Awaiting payment',
+		});
+
+		fetch('https://trim-time-api.onrender.com/appointments', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: payload,
+		})
+			.then((res) => {
+				toast.success('Your appointment has been booked successfully.');
+				setButtonLoading(false);
+			})
+			.catch((error) => {
+				toast.error('Failed to book appointment :' + error.response.message);
+				setButtonLoading(false);
+			});
 	};
 
 	return (
@@ -179,7 +225,7 @@ const Landing = () => {
 											<button
 												type="button"
 												className="px-8 sm:px-12 py-2.5 text-sm font-medium text-white bg-[#FD9B1F] hover:bg-[#FD9B1F] focus:outline-none rounded-lg text-center"
-												onClick={() => booking_modial.showModal()}
+												onClick={() => handleDialog(barber)}
 											>
 												Book
 											</button>
@@ -210,16 +256,22 @@ const Landing = () => {
 					className="modal-box"
 				>
 					<h3 className="font-bold text-lg">
-						Book appointment with Scott Logan
+						Book an appointment with {currentBarber?.name}
 					</h3>
 					<label
-						htmlFor="countries"
+						htmlFor="service"
 						className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
 					>
 						Type of service
 					</label>
 					<select
-						id="countries"
+						{...register('service', {
+							required: {
+								value: true,
+								message: 'Type of service is required',
+							},
+						})}
+						id="service"
 						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 					>
 						<option defaultValue>Choose a service</option>
@@ -234,6 +286,11 @@ const Landing = () => {
 						<option defaultValue="Hairstyling">Hairstyling</option>
 						<option defaultValue="Stacking">Stacking</option>
 					</select>
+					{errors?.service && (
+						<span className="text-red-500 text-xs">
+							{errors?.service?.message}
+						</span>
+					)}
 
 					<div>
 						<label
@@ -266,18 +323,36 @@ const Landing = () => {
 						)}
 					</div>
 
+					<div className="mt-4 input-wrapper flex flex-col">
+						<label htmlFor="checkin_date" className="input-label">
+							Check in date
+						</label>
+						<input
+							{...register('checkin_date', {
+								required: {
+									value: true,
+									message: 'Checkin date is required',
+								},
+							})}
+							type="date"
+							name="checkin_date"
+							id="checkin_date"
+							className="input-field"
+						/>
+						{errors?.checkin_date && (
+							<span className="text-red-500 text-xs">
+								{errors?.checkin_date?.message}
+							</span>
+						)}
+					</div>
+
 					<div className="flex justify-center">
 						<button
 							type="submit"
-							className="mt-6 text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2"
 							disabled={buttonLoading ? true : false}
+							className="mt-6 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
 						>
-							<img
-								className="w-auto h-10 mr-2 -ml-1"
-								src="https://res.cloudinary.com/dgisuffs0/image/upload/q_auto/v1689324487/mpesa/MicrosoftTeams-image_41_b93lyy.jpg"
-								alt=""
-							/>
-							{buttonLoading ? 'Processing...' : 'Pay with Mpesa Express'}
+							{buttonLoading ? 'Processing...' : 'Book Now'}
 						</button>
 					</div>
 

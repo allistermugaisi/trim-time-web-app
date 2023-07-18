@@ -39,87 +39,75 @@ const Barbers = () => {
 							</tr>
 						</thead>
 						<tbody className="bg-white divide-y divide-gray-100 text-gray-700">
-							{loading === false ? (
-								barbers?.map((barber) => {
-									const {
-										id,
-										name,
-										imageUrl,
-										price,
-										location,
-										experience,
-										rating,
-										clients,
-										services,
-									} = barber;
+							{barbers?.map((barber) => {
+								const {
+									id,
+									name,
+									imageUrl,
+									price,
+									location,
+									experience,
+									rating,
+									clients,
+									services,
+								} = barber;
 
-									return (
-										<tr
-											key={id}
-											role="button"
-											onClick={() => setShowModal(true)}
-										>
-											<td className="px-4 py-3">
-												<span className="text-sm">{id}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">
-													<img
-														className="w-10 h-10 rounded-full"
-														src={imageUrl}
-														alt="Rounded avatar"
-													/>
-												</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{name}</span>
-											</td>
+								return (
+									<tr key={id} role="button" onClick={() => setShowModal(true)}>
+										<td className="px-4 py-3">
+											<span className="text-sm">{id}</span>
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">
+												<img
+													className="w-10 h-10 rounded-full"
+													src={imageUrl}
+													alt="Rounded avatar"
+												/>
+											</span>
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">{name}</span>
+										</td>
 
-											<td className="px-4 py-3">
-												<span className="text-sm">{clients}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{location}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">
-													{formatter.format(price)}
-												</span>
-											</td>
-											<td className="px-4 py-3">
-												{[...Array(5)].map((star, index) => {
-													index += 1;
-													return (
-														<button
-															type="button"
-															key={index}
-															className={
-																index <= rating
-																	? 'text-orange-600'
-																	: 'text-gray-300'
-															}
-															onClick={() => setRating(index)}
-														>
-															<span className="star text-cxs">&#9733;</span>
-														</button>
-													);
-												})}
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">
-													{experience === 1
-														? `${experience}yr`
-														: `${experience}yrs`}
-												</span>
-											</td>
-										</tr>
-									);
-								})
-							) : (
-								<div className="flex justify-center items-center mt-32">
-									<h3>Loading barbers...</h3>
-								</div>
-							)}
+										<td className="px-4 py-3">
+											<span className="text-sm">{clients}</span>
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">{location}</span>
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">{formatter.format(price)}</span>
+										</td>
+										<td className="px-4 py-3">
+											{[...Array(5)].map((star, index) => {
+												index += 1;
+												return (
+													<button
+														type="button"
+														key={index}
+														className={
+															index <= rating
+																? 'text-orange-600'
+																: 'text-gray-300'
+														}
+														onClick={() => setRating(index)}
+													>
+														<span className="star text-cxs">&#9733;</span>
+													</button>
+												);
+											})}
+										</td>
+										<td className="px-4 py-3">
+											<span className="text-sm">
+												{experience === 1
+													? `${experience}yr`
+													: `${experience}yrs`}
+											</span>
+										</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</div>
