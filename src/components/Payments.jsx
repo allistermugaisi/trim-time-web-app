@@ -51,7 +51,6 @@ const Payments = () => {
 									date,
 									status,
 								} = payment;
-								console.log(payment);
 
 								return (
 									<tr key={id} role="button" onClick={() => setShowModal(true)}>

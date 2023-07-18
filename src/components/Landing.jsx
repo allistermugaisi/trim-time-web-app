@@ -47,6 +47,16 @@ const Landing = () => {
 		shouldFocusError: true,
 	});
 
+	const {
+		register: register2,
+		formState: { errors: errors2 },
+		handleSubmit: handleSubmit2,
+	} = useForm({
+		mode: 'all',
+		shouldUnregister: true,
+		shouldFocusError: true,
+	});
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -74,6 +84,11 @@ const Landing = () => {
 	const handleDialog = (barber) => {
 		setCurrentBarber(barber);
 		booking_modial.showModal();
+	};
+
+	const handleMoreInfoDialog = (barber) => {
+		setCurrentBarber(barber);
+		more_info_modial.showModal();
 	};
 
 	const onSubmit = (data, e) => {
@@ -105,6 +120,36 @@ const Landing = () => {
 			})
 			.catch((error) => {
 				toast.error('Failed to book appointment :' + error.response.message);
+				setButtonLoading(false);
+			});
+	};
+
+	const onSubmit2 = (data, e) => {
+		e.preventDefault();
+
+		setButtonLoading(true);
+
+		const { rating, message } = data;
+
+		const payload = JSON.stringify({
+			rating,
+			message,
+			client: currentUser,
+			barber: currentBarber,
+			date: new Date().toLocaleDateString(),
+		});
+
+		fetch('https://trim-time-api.onrender.com/reviews', {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: payload,
+		})
+			.then((res) => {
+				toast.success('Your rating has been saved successfully.');
+				setButtonLoading(false);
+			})
+			.catch((error) => {
+				toast.error('Failed to rate barber :' + error.response.message);
 				setButtonLoading(false);
 			});
 	};
@@ -232,6 +277,7 @@ const Landing = () => {
 											<button
 												type="button"
 												className="px-3 sm:px-8 py-2.5 text-[#FD9B1F] hover:text-white border border-[#FD9B1F] hover:bg-[#FD9B1F] focus:outline-none font-medium rounded-lg text-sm text-center"
+												onClick={() => handleMoreInfoDialog(barber)}
 											>
 												More info
 											</button>
@@ -353,6 +399,105 @@ const Landing = () => {
 							className="mt-6 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
 						>
 							{buttonLoading ? 'Processing...' : 'Book Now'}
+						</button>
+					</div>
+
+					<p className="mt-4 text-center text-gray-500 dark:text-gray-400">
+						Please press{' '}
+						<kbd className="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">
+							Esc
+						</kbd>
+						key to close
+					</p>
+				</form>
+			</dialog>
+			<dialog id="more_info_modial" className="modal">
+				<form
+					method="dialog"
+					onSubmit={handleSubmit2(onSubmit2)}
+					className="modal-box"
+				>
+					<div className="flex items-center justify-between">
+						<h3 className="font-bold text-lg">
+							More info about {currentBarber?.name}
+						</h3>
+
+						<img
+							className="w-12 h-12 rounded-full"
+							src={currentBarber?.imageUrl}
+							alt="Rounded avatar"
+						/>
+					</div>
+
+					<div className="mt-6">
+						<p className="text-sm text-gray-600">
+							{currentBarber?.name} is &nbsp;
+							<span className="text-green-500">available</span>
+							&nbsp; Mon - Sat 9am to 5pm
+						</p>
+					</div>
+
+					<div>
+						<label
+							htmlFor="rating"
+							className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+						>
+							Leave us your rating
+						</label>
+						<input
+							{...register2('rating', {
+								required: {
+									value: true,
+									message: 'Rating is required',
+								},
+							})}
+							type="number"
+							id="rating"
+							name="rating"
+							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							placeholder="Rate barber from 0 - 5"
+						/>
+						{errors2?.rating && (
+							<span className="text-red-500 text-xs">
+								{errors2?.rating?.message}
+							</span>
+						)}
+					</div>
+
+					<div className="mb-6">
+						<label
+							htmlFor="message"
+							className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>
+							Your message
+						</label>
+						<textarea
+							{...register2('message', {
+								required: {
+									value: true,
+									message: 'Message is required',
+								},
+							})}
+							id="message"
+							rows="4"
+							name="message"
+							className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							placeholder="Your message..."
+						></textarea>
+						{errors2?.message && (
+							<span className="text-red-500 text-xs">
+								{errors2?.message?.message}
+							</span>
+						)}
+					</div>
+
+					<div className="flex justify-center">
+						<button
+							type="submit"
+							disabled={buttonLoading ? true : false}
+							className="mt-6 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+						>
+							{buttonLoading ? 'Processing...' : 'Send message'}
 						</button>
 					</div>
 
