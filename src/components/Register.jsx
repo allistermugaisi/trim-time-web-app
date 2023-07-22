@@ -84,7 +84,7 @@ const Register = () => {
 				experience: Math.floor(Math.random() * 8),
 				rating: Math.floor(Math.random() * 5),
 				clients: Math.floor(Math.random() * 500),
-				services: getRandomString(type_of_service).toArray(),
+				services: [getRandomString(type_of_service)],
 				password,
 				confirm_password: password,
 				accept_terms,
