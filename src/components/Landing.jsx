@@ -10,6 +10,7 @@ import Filters from './Filters';
 const Landing = () => {
 	const navigate = useNavigate();
 
+	const [time, setTime] = useState('');
 	const [barbers, setBarbers] = useState(null);
 	const [currentBarber, setCurrentBarber] = useState([]);
 	const [currentUser, setCurrentUser] = useState([]);
@@ -109,7 +110,7 @@ const Landing = () => {
 		e.preventDefault();
 		setButtonLoading(true);
 
-		const { checkin_date, phone, service } = data;
+		const { checkin_date, checkin_time, phone, service } = data;
 
 		const payload = JSON.stringify({
 			id: Math.floor(Math.random() * 100000),
@@ -120,6 +121,7 @@ const Landing = () => {
 			amount: currentBarber?.price,
 			barber: currentBarber,
 			date: new Date().toLocaleDateString(),
+			time: checkin_time,
 			status: 'Awaiting payment',
 		});
 
@@ -280,20 +282,40 @@ const Landing = () => {
 												})}
 											</div>
 										</div>
-										<div className="mx-2 space-x-3">
+										<div className="mx-2 space-x-3 flex">
 											<button
 												type="button"
-												className="px-8 sm:px-12 py-2.5 text-sm font-medium text-white bg-[#FD9B1F] hover:bg-[#FD9B1F] focus:outline-none rounded-lg text-center"
+												className="px-8 sm:px-6 py-2.5 text-sm font-medium text-white bg-[#FD9B1F] hover:bg-[#FD9B1F] focus:outline-none rounded-lg text-center"
 												onClick={() => handleDialog(barber)}
 											>
 												Book
 											</button>
 											<button
 												type="button"
-												className="px-3 sm:px-8 py-2.5 text-[#FD9B1F] hover:text-white border border-[#FD9B1F] hover:bg-[#FD9B1F] focus:outline-none font-medium rounded-lg text-sm text-center"
+												className="px-3 sm:px-4 py-2.5 text-[#FD9B1F] hover:text-white border border-[#FD9B1F] hover:bg-[#FD9B1F] focus:outline-none font-medium rounded-lg text-sm text-center"
 												onClick={() => handleMoreInfoDialog(barber)}
 											>
 												More info
+											</button>
+											<button
+												onClick={() => navigate('/trim-time/chat')}
+												className="bg-gray-300 rounded-full px-3"
+											>
+												<svg
+													fill="none"
+													className="h-10 w-10"
+													stroke="currentColor"
+													strokeWidth={1.5}
+													viewBox="0 0 24 24"
+													xmlns="http://www.w3.org/2000/svg"
+													aria-hidden="true"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
+													/>
+												</svg>
 											</button>
 										</div>
 									</div>
@@ -384,14 +406,17 @@ const Landing = () => {
 					</div>
 
 					<div className="mt-4 input-wrapper flex flex-col">
-						<label htmlFor="checkin_date" className="input-label">
-							Check in date
+						<label
+							htmlFor="checkin_date"
+							className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+						>
+							Enter reservation date
 						</label>
 						<input
 							{...register('checkin_date', {
 								required: {
 									value: true,
-									message: 'Checkin date is required',
+									message: 'Reservation date is required',
 								},
 							})}
 							type="date"
@@ -402,6 +427,30 @@ const Landing = () => {
 						{errors?.checkin_date && (
 							<span className="text-red-500 text-xs">
 								{errors?.checkin_date?.message}
+							</span>
+						)}
+					</div>
+
+					<div className="mt-4">
+						<label className="block my-2 text-sm font-medium text-gray-900 dark:text-white">
+							Enter reservation time
+						</label>
+						<input
+							{...register('checkin_time', {
+								required: {
+									value: true,
+									message: 'Reservation time is required',
+								},
+							})}
+							name="checkin_time"
+							className="w-full"
+							value={time}
+							onChange={(e) => setTime(e.target.value)}
+							type="time"
+						/>
+						{errors?.checkin_time && (
+							<span className="text-red-500 text-xs">
+								{errors?.checkin_time?.message}
 							</span>
 						)}
 					</div>

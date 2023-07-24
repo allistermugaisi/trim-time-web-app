@@ -1,6 +1,7 @@
 export { default as Landing } from './Landing';
 export { default as Login } from './Login';
 export { default as Register } from './Register';
+export { default as Chat } from './Chat';
 export { default as Clients } from './Clients';
 export { default as Barbers } from './Barbers';
 export { default as Profile } from './Profile';

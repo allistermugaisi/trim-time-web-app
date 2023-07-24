@@ -136,7 +136,7 @@ const Appointments = () => {
 									<td className="px-4 py-3">Amount Paid</td>
 									<td className="px-4 py-3">Location</td>
 									<td className="px-4 py-3">Date</td>
-									{/* <td className="px-4 py-3">Status</td> */}
+									<td className="px-4 py-3">Time</td>
 									<td className="px-4 py-3">Action</td>
 								</tr>
 							</thead>
@@ -150,6 +150,7 @@ const Appointments = () => {
 										service,
 										amount,
 										checkin_date,
+										time,
 										status,
 									} = appointment;
 
@@ -180,6 +181,9 @@ const Appointments = () => {
 											</td>
 											<td className="px-4 py-3">
 												<span className="text-sm">{checkin_date}</span>
+											</td>
+											<td className="px-4 py-3">
+												<span className="text-sm">{time}hrs</span>
 											</td>
 											{/* <td className="px-4 py-3">
 												<span

@@ -6,12 +6,13 @@ import {
 } from 'react-router-dom';
 
 // layouts
-import { RootLayout, AuthLayout, DashboardLayout } from './layouts';
+import { RootLayout, AuthLayout, DashboardLayout, ChatLayout } from './layouts';
 
 import {
 	Landing,
 	Login,
 	Register,
+	Chat,
 	Clients,
 	Barbers,
 	Profile,
@@ -26,6 +27,9 @@ const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<RootLayout />}>
 			<Route index element={<Landing />} />
+			<Route path="trim-time" element={<ChatLayout />}>
+				<Route path="chat" element={<Chat />} />
+			</Route>
 			<Route path="dashboard" element={<DashboardLayout />}>
 				<Route path="clients" element={<Clients />} />
 				<Route path="barbers" element={<Barbers />} />
