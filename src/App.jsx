@@ -27,9 +27,9 @@ const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path="/" element={<RootLayout />}>
 			<Route index element={<Landing />} />
-			<Route path="trim-time" element={<ChatLayout />}>
+			{/* <Route path="trim-time" element={<ChatLayout />}>
 				<Route path="chat" element={<Chat />} />
-			</Route>
+			</Route> */}
 			<Route path="dashboard" element={<DashboardLayout />}>
 				<Route path="clients" element={<Clients />} />
 				<Route path="barbers" element={<Barbers />} />
