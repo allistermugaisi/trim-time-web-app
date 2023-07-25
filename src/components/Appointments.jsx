@@ -26,38 +26,66 @@ const Appointments = () => {
 
 	useEffect(() => {
 		let email = sessionStorage.getItem('email');
+		let user_type = sessionStorage.getItem('user_type');
 
 		if (email === '' || email === null) {
 			navigate('/auth/login');
 		}
 
-		fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
-			.then((res) => {
-				return res.json();
-			})
-			.then((res) => {
-				setCurrentUser(res[0]);
-			})
-			.catch((error) => {
-				toast.error('Failed to fetch current user' + error.response.message);
-			});
+		if (user_type === 'barber') {
+			fetch(`https://trim-time-api.onrender.com/barbers?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					setCurrentUser(res[0]);
+				})
+				.catch((error) => {
+					toast.error('Failed to fetch current user' + error.response.message);
+				});
+		} else {
+			fetch(`https://trim-time-api.onrender.com/users?email=${email}`)
+				.then((res) => {
+					return res.json();
+				})
+				.then((res) => {
+					setCurrentUser(res[0]);
+				})
+				.catch((error) => {
+					toast.error('Failed to fetch current user' + error.response.message);
+				});
+		}
 	}, []);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get(
-					'https://trim-time-api.onrender.com/appointments'
-				);
-				setAppointments(response.data);
-				setLoading(false);
+				if (currentUser.type === 'owner') {
+					const response = await axios.get(
+						'https://trim-time-api.onrender.com/appointments'
+					);
+					setAppointments(response.data);
+					setLoading(false);
+				} else if (currentUser.type === 'client') {
+					const response = await axios.get(
+						`https://trim-time-api.onrender.com/appointments?client.email=${currentUser.email}`
+					);
+					setAppointments(response.data);
+					setLoading(false);
+				} else {
+					const response = await axios.get(
+						`https://trim-time-api.onrender.com/appointments?barber.id=${currentUser.id}`
+					);
+					setAppointments(response.data);
+					setLoading(false);
+				}
 			} catch (error) {
 				console.error('Error fetching data:', error);
 			}
 		};
 
 		fetchData();
-	}, []);
+	}, [currentUser]);
 
 	const handleDialog = (appointment) => {
 		setCurrentAppointment(appointment);
@@ -122,70 +150,72 @@ const Appointments = () => {
 
 	return (
 		<>
-			<div className="flex justify-center mt-8 overflow-hidden overflow-y-scroll">
-				<div className="max-w-7xl overflow-hidden mb-8">
-					<div className="w-full overflow-x-auto no-scrollbar">
-						<table className="w-full whitespace-nowrap">
-							<thead className="text-xs font-semibold tracking-wide text-left text-gray-500 capitalize border-b border-gray-200  bg-gray-100">
-								<tr>
-									<td className="px-4 py-3">Booking ID</td>
-									<td className="px-4 py-3">Customer Name</td>
-									<td className="px-4 py-3">Customer phone</td>
-									<td className="px-4 py-3">Barber name</td>
-									<td className="px-4 py-3">Service</td>
-									<td className="px-4 py-3">Amount Paid</td>
-									<td className="px-4 py-3">Location</td>
-									<td className="px-4 py-3">Date</td>
-									<td className="px-4 py-3">Time</td>
-									<td className="px-4 py-3">Action</td>
-								</tr>
-							</thead>
-							<tbody className="bg-white divide-y divide-gray-100 text-gray-700">
-								{appointments?.map((appointment) => {
-									const {
-										id,
-										barber,
-										client,
-										phone,
-										service,
-										amount,
-										checkin_date,
-										time,
-										status,
-									} = appointment;
+			{appointments?.length > 0 ? (
+				<>
+					<div className="flex justify-center mt-8 overflow-hidden overflow-y-scroll">
+						<div className="max-w-7xl overflow-hidden mb-8">
+							<div className="w-full overflow-x-auto no-scrollbar">
+								<table className="w-full whitespace-nowrap">
+									<thead className="text-xs font-semibold tracking-wide text-left text-gray-500 capitalize border-b border-gray-200  bg-gray-100">
+										<tr>
+											<td className="px-4 py-3">Booking ID</td>
+											<td className="px-4 py-3">Customer Name</td>
+											<td className="px-4 py-3">Customer phone</td>
+											<td className="px-4 py-3">Barber name</td>
+											<td className="px-4 py-3">Service</td>
+											<td className="px-4 py-3">Amount Paid</td>
+											<td className="px-4 py-3">Location</td>
+											<td className="px-4 py-3">Date</td>
+											<td className="px-4 py-3">Time</td>
+											<td className="px-4 py-3">Action</td>
+										</tr>
+									</thead>
+									<tbody className="bg-white divide-y divide-gray-100 text-gray-700">
+										{appointments?.map((appointment) => {
+											const {
+												id,
+												barber,
+												client,
+												phone,
+												service,
+												amount,
+												checkin_date,
+												time,
+												status,
+											} = appointment;
 
-									return (
-										<tr key={id} role="button">
-											<td className="px-4 py-3">
-												<span className="text-sm">{id}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{client?.name}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{phone}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{barber?.name}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{service}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">
-													{formatter.format(amount)}
-												</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{barber?.location}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{checkin_date}</span>
-											</td>
-											<td className="px-4 py-3">
-												<span className="text-sm">{time}hrs</span>
-											</td>
-											{/* <td className="px-4 py-3">
+											return (
+												<tr key={id} role="button">
+													<td className="px-4 py-3">
+														<span className="text-sm">{id}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{client?.name}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{phone}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{barber?.name}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{service}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">
+															{formatter.format(amount)}
+														</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{barber?.location}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{checkin_date}</span>
+													</td>
+													<td className="px-4 py-3">
+														<span className="text-sm">{time}hrs</span>
+													</td>
+													{/* <td className="px-4 py-3">
 												<span
 													className={
 														status === 'Scheduled'
@@ -196,30 +226,37 @@ const Appointments = () => {
 													{status}
 												</span>
 											</td> */}
-											<td className="px-4 py-3">
-												<button
-													onClick={() => handleDialog(appointment)}
-													className="mt-6 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-												>
-													Pay now
-												</button>
-											</td>
-										</tr>
-									);
-								})}
-							</tbody>
-						</table>
-					</div>
-					<div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-white text-gray-500 dark:text-gray-400 dark:bg-gray-800">
-						<div className="flex flex-col justify-between text-xs sm:flex-row text-gray-600 dark:text-gray-400">
-							<span className="flex items-center font-semibold tracking-wide uppercase">
-								Showing 1-5 of 25
-							</span>
-							<div className="flex mt-2 sm:mt-auto sm:justify-end"></div>
+													<td className="px-4 py-3">
+														<button
+															onClick={() => handleDialog(appointment)}
+															className="mt-6 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+														>
+															Pay now
+														</button>
+													</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</table>
+							</div>
+							<div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-white text-gray-500 dark:text-gray-400 dark:bg-gray-800">
+								<div className="flex flex-col justify-between text-xs sm:flex-row text-gray-600 dark:text-gray-400">
+									<span className="flex items-center font-semibold tracking-wide uppercase">
+										Showing 1-5 of 25
+									</span>
+									<div className="flex mt-2 sm:mt-auto sm:justify-end"></div>
+								</div>
+							</div>
 						</div>
 					</div>
+				</>
+			) : (
+				<div className="flex justify-center mt-32">
+					<h3>You have no appointments</h3>
 				</div>
-			</div>
+			)}
+
 			<dialog id="payment_modal" className="modal">
 				<form
 					method="dialog"
