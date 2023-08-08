@@ -170,6 +170,12 @@ const Landing = () => {
 			});
 	};
 
+	const today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+	const currentTime = new Date().toLocaleTimeString([], {
+		hour: '2-digit',
+		minute: '2-digit',
+	});
+
 	return (
 		<>
 			<div className="antialiased bg-gray-50 dark:bg-gray-300">
@@ -419,6 +425,7 @@ const Landing = () => {
 									message: 'Reservation date is required',
 								},
 							})}
+							min={today}
 							type="date"
 							name="checkin_date"
 							id="checkin_date"
@@ -442,6 +449,7 @@ const Landing = () => {
 									message: 'Reservation time is required',
 								},
 							})}
+							min={today}
 							name="checkin_time"
 							className="w-full"
 							value={time}
@@ -515,6 +523,8 @@ const Landing = () => {
 								},
 							})}
 							type="number"
+							min={0}
+							max={5}
 							id="rating"
 							name="rating"
 							className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
