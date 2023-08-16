@@ -12,8 +12,8 @@ const Landing = () => {
 
 	const [time, setTime] = useState('');
 	const [barbers, setBarbers] = useState(null);
-	const [currentBarber, setCurrentBarber] = useState([]);
 	const [currentUser, setCurrentUser] = useState([]);
+	const [currentBarber, setCurrentBarber] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const [searchQuery, setSearchQuery] = useState('');

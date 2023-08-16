@@ -33,14 +33,14 @@ const Tabs = () => {
 						<>
 							<li className="mr-2">
 								<Link
-									to="/dashboard/clients"
+									to="/dashboard/brands"
 									className={
 										location?.pathname === '/dashboard/clients'
 											? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500'
 											: 'inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
 									}
 								>
-									Clients
+									Brands
 								</Link>
 							</li>
 							<li className="mr-2">
@@ -107,18 +107,6 @@ const Tabs = () => {
 							Profile
 						</Link>
 					</li>
-					{/* <li className="mr-2">
-						<Link
-							to="/dashboard/notifications"
-							className={
-								location?.pathname === '/dashboard/notifications'
-									? 'inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500'
-									: 'inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
-							}
-						>
-							Notifications
-						</Link>
-					</li> */}
 				</ul>
 			</div>
 		</div>

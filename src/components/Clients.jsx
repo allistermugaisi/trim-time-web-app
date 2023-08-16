@@ -33,8 +33,6 @@ const Clients = () => {
 								<td className="px-4 py-3">Name</td>
 								<td className="px-4 py-3">Email address</td>
 								<td className="px-4 py-3">User type</td>
-								{/* <td className="px-4 py-3">Appointments</td>
-								<td className="px-4 py-3">Total Amount Paid</td> */}
 							</tr>
 						</thead>
 						<tbody className="bg-white divide-y divide-gray-100 text-gray-700">

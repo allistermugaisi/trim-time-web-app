@@ -12,7 +12,7 @@ import {
 	Landing,
 	Login,
 	Register,
-	Chat,
+	CustomChat,
 	Clients,
 	Barbers,
 	Profile,
@@ -28,7 +28,7 @@ const router = createBrowserRouter(
 		<Route path="/" element={<RootLayout />}>
 			<Route index element={<Landing />} />
 			<Route path="trim-time" element={<ChatLayout />}>
-				<Route path="chat" element={<Chat />} />
+				<Route path="chat" element={<CustomChat />} />
 			</Route>
 			<Route path="dashboard" element={<DashboardLayout />}>
 				<Route path="clients" element={<Clients />} />
